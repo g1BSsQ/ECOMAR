@@ -8,29 +8,26 @@ import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar"
 import Link from "next/link"
 import { Button } from "~/components/ui/button"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "~/components/ui/card"
-import React, { SVGProps, useContext ,useState} from "react"
+import React, { SVGProps, useContext ,useState, useEffect} from "react"
 import {Header} from "~/components/component/header"
 import { Myaccount } from "./myaccount"
 import { Interface } from "readline"
-type Item =  {
-  id:number,
-  title: string,
-  description: string,
-  price: number,
-  amount: number,
+export function Marketplace() {
+  const [itemsMarket, setItemMarket] = useState([]);
+  useEffect(() => {
+    fetchCredits();
+  }, []);
   
-}
-type MarketplaceProps = {
-  itemsMarket: Item[]; // Khai báo props 'items' là một mảng các Item
-}
-const item = {
-  id:1,
-  title: "Renewable Energy",
-  description: "energy carbon credits from a wind farm project",
-  price: 15.99,
-  amount: 1000,
-}
-export function Marketplace({itemsMarket = []}: MarketplaceProps) {
+  const fetchCredits = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/credit'); 
+      const data = await response.json();
+      setItemMarket(data);
+      console.log(data);
+    } catch (error) {
+      console.error('Lỗi khi lấy dữ liệu:', error);
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-100">
       <main className="container mx-auto p-4">

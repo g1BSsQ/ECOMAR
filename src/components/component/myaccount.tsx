@@ -28,8 +28,6 @@ export function Myaccount() {
     amount: number,
   }
   const [items, setItems] = useState([item]);
-  const [itemsMarket, setItemMarket] = useState<Item[]>([]); 
-  const test = false;
   useEffect(()=>{ 
     const item2 = {
       id:2,
@@ -41,8 +39,50 @@ export function Myaccount() {
     setItems([...items, item2]);
   },[]);
   const handleClickSell = (item:Item) =>{
-    setItemMarket([...itemsMarket, item]);
+    addCredit(item);
   }
+
+  const addCredit = async (item) => {
+    try {
+      if (true) {
+        const response = await fetch('http://localhost:8080/credit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ title: item.title , description: item.description,
+             price: item.price, amount: item.amount }),
+        });
+        const data = await response.json();
+        setItems(items.filter((i) => i.id !== item.id));
+      }
+    } catch (error) {
+      console.error('Lỗi khi thêm credit:', error);
+    }
+  };
+  const [itemsMarket, setItemMarket] = useState([]);
+  useEffect(() => {
+    fetchCredits();
+  }, []);
+  
+  const fetchCredits = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/credit'); 
+      const data = await response.json();
+      setItemMarket(data);
+      console.log(data);
+    } catch (error) {
+      console.error('Lỗi khi lấy dữ liệu:', error);
+    }
+  };
+  items.map((item)=>(
+    // nếu đã có trong itemsMarket thì xóa đi
+    itemsMarket.map((itemMarket)=>{
+      if(item.title=== itemMarket.title){
+        setItems(items.filter((i) => i.title !== item.title));
+      }
+    })
+  ));
   return (
     <div className="min-h-screen bg-gray-100">
       <main className="container mx-auto p-4">
@@ -67,7 +107,6 @@ export function Myaccount() {
         ))}
       </div>
       </main>
-       <Marketplace itemsMarket={itemsMarket} />
     </div>
   )
 }
