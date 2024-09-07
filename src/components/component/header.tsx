@@ -3,6 +3,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar"
 import { Button } from "~/components/ui/button"
 import { CloudIcon, MenuIcon } from "lucide-react"
 import { useWallet } from '@meshsdk/react';
+import ConnectionHandler from "./ConnectionHandler";
 export function Header() {
     const { connected } = useWallet();
     return (
@@ -24,11 +25,7 @@ export function Header() {
                 <Link href="/mint" className="hover:underline" prefetch={false}>
                     Mint
                 </Link>
-                <Button variant="outline" className="bg-blue-500 text-primary-foreground px-12 py-3">
-                    <Link href="/connectwallet">
-                        {connected ? 'Connected' : 'Connect Wallet'}
-                    </Link>
-                </Button>
+                <ConnectionHandler isDisabled={false} />
             </nav><Button variant="outline" size="icon" className="md:hidden">
                 <MenuIcon className="h-6 w-6" />
                 <span className="sr-only">Toggle menu</span>
