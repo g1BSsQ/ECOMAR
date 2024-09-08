@@ -4,15 +4,12 @@
 * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
 */
 
-import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar"
-import Link from "next/link"
 import { Button } from "~/components/ui/button"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "~/components/ui/card"
-import { JSX, SVGProps, useEffect, useState } from "react"
-import { Marketplace } from "./marketplace"
+import {  useEffect, useState } from "react"
 import React from "react"
+
 export function Myaccount() {
-  
   const item = {
     id:1,
     title: "Renewable Energy",
@@ -90,7 +87,7 @@ export function Myaccount() {
       <div className="grid gap-4 md:grid-cols-3">
         {items.map((item)=>(
           <div key={item.id}>
-           <Card className="shadow-md">
+           <Card className="shadow-md h-full grid grid-rows-1">
             <CardHeader>
               <CardTitle>{item.title}</CardTitle>
               <CardDescription>{item.description}</CardDescription>
@@ -99,7 +96,7 @@ export function Myaccount() {
               <div className="text-xl font-bold">{"$"+item.price}</div>
               <div className="text-sm text-muted-foreground">{item.amount+" available"}</div>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="flex justify-center">
             <Button onClick={ () => handleClickSell(item) }  className="w-full bg-green-700 text-white">SELL</Button>
             </CardFooter>
             </Card>   

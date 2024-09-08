@@ -1,0 +1,83 @@
+{
+  "preamble": {
+    "title": "hung/exchange",
+    "description": "Aiken contracts for project 'hung/exchange'",
+    "version": "0.0.0",
+    "plutusVersion": "v2",
+    "compiler": {
+      "name": "Aiken",
+      "version": "v1.0.31-alpha+unknown"
+    },
+    "license": "Apache-2.0"
+  },
+  "validators": [
+    {
+      "title": "exchange.contract",
+      "datum": {
+        "title": "datum",
+        "schema": {
+          "$ref": "#/definitions/exchange~1Datum"
+        }
+      },
+      "redeemer": {
+        "title": "_redeemer",
+        "schema": {
+          "$ref": "#/definitions/Void"
+        }
+      },
+      "compiledCode": "5903b501000032323232323232322323223225333007323232323253323300d3001300e37546024602600c2a66601a00429444c8c8c8c94ccc044cc894ccc04d4ccc04ccdd7801260103d87a800014a2266ebc00530103d87a800014a02944ccc004020dd6980218099baa00f30023301530023301530073013375401e97ae0330154c0103d87a80004bd7019980080419b833370490021bad30043013375401e906400a6150d8799fd8799f581cc4ede0ed59a20a77967f510799af7eca71d6e2bba748c9e49610d0d0ffd8799fd8799fd8799f581c2f697a7b7fc943c2b2e0cb0ec74b3495807489ad90fc5cd2428b8118ffffffff0014a22940888c8cc004004010894ccc060004530103d87a800013232533301753330173371200c64a666030601860326ea8004520001375a603a60346ea8004c94ccc060c030c064dd50008a60103d87a8000132330010013756603c60366ea8008894ccc074004530103d87a8000132323232533301e33722911000021533301e3371e9101000021300f33022375000297ae014c0103d87a8000133006006003375a603e0066eb8c074008c084008c07c004c8cc004004dd5980e980f180d1baa00322533301c00114c103d87a8000132323232533301d33722911000021533301d3371e9101000021300e33021374c00297ae014c0103d87a80001330060060033756603c0066eb8c070008c080008c0780044cdd79804980c9baa300930193754004601260326ea8014528098041980d80125eb804cc010010004c070008c068004dd2a4000460280024602660286028602860280026e1d200214a06464660020026eb0c048c04cc04cc04cc04cc04cc04cc04cc04cc03cdd50029129998088008a50132533300f3371e6eb8c050008010528899801801800980a0009bae3001300d375401246020602260220026eb0c038c03cc03cc02cdd5000980680098049baa00114984d9594cccccc03000454ccc014cdc3a4000600c6ea800454ccc020c01cdd50008a4c2c2c2c2c2c2ca66600666e1d200030043754002264a66600e0022c26464a6660120022c26464a6660160022c26464a66601a0022c26464a66601e0022c264a66602060260042930b19299999980a0008b0b0b09bad0011630110013011002325333333012001161616161375c002601e002601e00464a6666660200022c2c2c2c26eb8004c034004c034008c94cccccc038004585858584dd7000980580098058011929999998060008b0b0b0b09bae0013009001300537540022ca66666601200220022c2c2c2cae6955ceaab9e5573eae815d0aba257481",
+      "hash": "12e3e5b6af1ea11127ed47f39a68a94aaab54eee4e82cde2d4c2c795"
+    }
+  ],
+  "definitions": {
+    "ByteArray": {
+      "dataType": "bytes"
+    },
+    "Int": {
+      "dataType": "integer"
+    },
+    "Void": {
+      "title": "Unit",
+      "description": "The nullary constructor.",
+      "anyOf": [
+        {
+          "dataType": "constructor",
+          "index": 0,
+          "fields": []
+        }
+      ]
+    },
+    "exchange/Datum": {
+      "title": "Datum",
+      "anyOf": [
+        {
+          "title": "Datum",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "policyId",
+              "$ref": "#/definitions/ByteArray"
+            },
+            {
+              "title": "assetName",
+              "$ref": "#/definitions/ByteArray"
+            },
+            {
+              "title": "seller",
+              "$ref": "#/definitions/ByteArray"
+            },
+            {
+              "title": "issuer",
+              "$ref": "#/definitions/ByteArray"
+            },
+            {
+              "title": "price",
+              "$ref": "#/definitions/Int"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

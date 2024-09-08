@@ -4,14 +4,10 @@
 * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
 */
 
-import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar"
-import Link from "next/link"
 import { Button } from "~/components/ui/button"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "~/components/ui/card"
-import React, { SVGProps, useContext ,useState, useEffect} from "react"
-import {Header} from "~/components/component/header"
-import { Myaccount } from "./myaccount"
-import { Interface } from "readline"
+import React, { useState, useEffect} from "react"
+
 export function Marketplace() {
   const [itemsMarket, setItemMarket] = useState([]);
   useEffect(() => {
@@ -35,7 +31,7 @@ export function Marketplace() {
         <div className="grid gap-4 md:grid-cols-3">
         {itemsMarket.map((item)=>(
           <div key={item.id}>
-           <Card className="shadow-md">
+           <Card className="shadow-md h-full grid grid-rows-1">
             <CardHeader>
               <CardTitle>{item.title}</CardTitle>
               <CardDescription>{item.description}</CardDescription>
@@ -44,7 +40,7 @@ export function Marketplace() {
               <div className="text-xl font-bold">{"$"+item.price}</div>
               <div className="text-sm text-muted-foreground">{item.amount+" available"}</div>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="flex justify-center">
               <Button className="w-full bg-green-700 text-white">Buy Now</Button>
             </CardFooter>
             </Card>   
