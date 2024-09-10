@@ -1,15 +1,15 @@
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react";
-import { useWallet, useWalletList } from "@meshsdk/react";
-
+import { useWalletList } from "@meshsdk/react";
+import { useWalletContext } from '../../context/WalletContext';
 interface Props {
   isDisabled: boolean;
 }
 
 export default function ConnectionHandler(props: Props) {
   const {isOpen, onOpen, onClose} = useDisclosure();
-  const {connected, connect, disconnect} = useWallet();
+  const {connected, connect, disconnect} = useWalletContext();
   const wallets = useWalletList();
-
+  
   return (
     <>
       {connected ? (
