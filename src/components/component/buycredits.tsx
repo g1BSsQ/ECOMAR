@@ -32,7 +32,7 @@ export function BuyCredits() {
                 </div>
                 <div>
                   <span className="font-semibold">Issuer:</span>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex Credits-center space-x-2">
                     <Avatar>
                       <AvatarImage src="/placeholder-user.jpg" alt="Issuer" />
                       <AvatarFallback>IS</AvatarFallback>
@@ -45,7 +45,7 @@ export function BuyCredits() {
                 </div>
                 <div>
                   <span className="font-semibold">Owner:</span>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex Credits-center space-x-2">
                     <Avatar>
                       <AvatarImage src="/placeholder-user.jpg" alt="Owner" />
                       <AvatarFallback>OW</AvatarFallback>
@@ -59,8 +59,8 @@ export function BuyCredits() {
               </div>
             </CardContent>
           </Card>
-          <Card className="flex items-center justify-between p-4 border-t border-gray-300">
-          <div className="flex items-center space-x-3">
+          <Card className="flex Credits-center justify-between p-4 border-t border-gray-300">
+          <div className="flex Credits-center space-x-3">
             <Label htmlFor="quantity" className="block">
               Quantity:
             </Label>
@@ -89,7 +89,7 @@ export function BuyCredits() {
                     <TableCell>$50</TableCell>
                     <TableCell>50</TableCell>
                     <TableCell>
-                      <div className="flex items-center">
+                      <div className="flex Credits-center">
                         <span>0x123456789abcdef0123456789abcdef</span>
                         <Button variant="ghost" size="icon" className="ml-2">
                           <CopyIcon className="w-4 h-4" />
@@ -102,7 +102,7 @@ export function BuyCredits() {
                     <TableCell>$25</TableCell>
                     <TableCell>25</TableCell>
                     <TableCell>
-                      <div className="flex items-center">
+                      <div className="flex Credits-center">
                         <span>0x987654321fedcba0987654321fedcba</span>
                         <Button variant="ghost" size="icon" className="ml-2">
                           <CopyIcon className="w-4 h-4" />
@@ -115,7 +115,7 @@ export function BuyCredits() {
                     <TableCell>$75</TableCell>
                     <TableCell>75</TableCell>
                     <TableCell>
-                      <div className="flex items-center">
+                      <div className="flex Credits-center">
                         <span>0xabcdef0123456789abcdef0123456789</span>
                         <Button variant="ghost" size="icon" className="ml-2">
                           <CopyIcon className="w-4 h-4" />

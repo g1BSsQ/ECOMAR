@@ -26,13 +26,15 @@ To read more about using these font, please visit the Next.js documentation:
 import Link from "next/link"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "~/components/ui/collapsible"
 import { CheckIcon, ChevronDownIcon, CompassIcon, PieChartIcon, ZapIcon } from "lucide-react"
+
 export function Homepage() {
+
   return (
     
     <div className="flex flex-col min-h-[100dvh]">
       <main className="flex-1">
         <section id="about" className="py-12 md:py-20 bg-[#f0f8f0]">
-          <div className="container px-4 md:px-6 grid gap-8 md:grid-cols-2 items-center">
+          <div className="container px-4 md:px-6 grid gap-8 md:grid-cols-2 Credits-center">
             <div>
               <h1 className="text-3xl md:text-4xl font-bold">Welcome to Carbon Exchange</h1>
               <p className="text-muted-foreground mt-4">
@@ -79,21 +81,21 @@ export function Homepage() {
                   By participating in the carbon market, businesses and individuals can:
                 </p>
                 <ul className="grid gap-4 mt-6 justify-center">
-                  <li className="flex items-start gap-4">
+                  <li className="flex Credits-start gap-4">
                     <CheckIcon className="w-6 h-6 text-[#1e8449] shrink-0" />
                     <div>
                       <h4 className="font-bold">Reduce Carbon Footprint</h4>
                       <p className="text-muted-foreground">Offset your emissions by purchasing carbon credits.</p>
                     </div>
                   </li>
-                  <li className="flex items-start gap-4">
+                  <li className="flex Credits-start gap-4">
                     <CheckIcon className="w-6 h-6 text-[#1e8449] shrink-0" />
                     <div>
                       <h4 className="font-bold">Generate Revenue</h4>
                       <p className="text-muted-foreground">Sell your carbon credits and earn additional income.</p>
                     </div>
                   </li>
-                  <li className="flex items-start gap-4">
+                  <li className="flex Credits-start gap-4">
                     <CheckIcon className="w-6 h-6 text-[#1e8449] shrink-0" />
                     <div>
                       <h4 className="font-bold">Demonstrate Sustainability</h4>
@@ -110,7 +112,7 @@ export function Homepage() {
             <h2 className="text-3xl md:text-4xl font-bold mb-8">Frequently Asked Questions</h2>
             <div className="grid gap-6">
               <Collapsible>
-                <CollapsibleTrigger className="flex items-center justify-between bg-[#f0f8f0] rounded-lg px-6 py-4 text-lg font-medium">
+                <CollapsibleTrigger className="flex Credits-center justify-between bg-[#f0f8f0] rounded-lg px-6 py-4 text-lg font-medium">
                   What is a carbon credit?
                   <ChevronDownIcon className="w-5 h-5 transition-transform [&[data-state=open]]:rotate-180" />
                 </CollapsibleTrigger>
@@ -121,7 +123,7 @@ export function Homepage() {
                 </CollapsibleContent>
               </Collapsible>
               <Collapsible>
-                <CollapsibleTrigger className="flex items-center justify-between bg-[#f0f8f0] rounded-lg px-6 py-4 text-lg font-medium">
+                <CollapsibleTrigger className="flex Credits-center justify-between bg-[#f0f8f0] rounded-lg px-6 py-4 text-lg font-medium">
                   How does carbon trading work?
                   <ChevronDownIcon className="w-5 h-5 transition-transform [&[data-state=open]]:rotate-180" />
                 </CollapsibleTrigger>
@@ -133,7 +135,7 @@ export function Homepage() {
                 </CollapsibleContent>
               </Collapsible>
               <Collapsible>
-                <CollapsibleTrigger className="flex items-center justify-between bg-[#f0f8f0] rounded-lg px-6 py-4 text-lg font-medium">
+                <CollapsibleTrigger className="flex Credits-center justify-between bg-[#f0f8f0] rounded-lg px-6 py-4 text-lg font-medium">
                   Why should I participate in carbon trading?
                   <ChevronDownIcon className="w-5 h-5 transition-transform [&[data-state=open]]:rotate-180" />
                 </CollapsibleTrigger>
@@ -145,7 +147,7 @@ export function Homepage() {
                 </CollapsibleContent>
               </Collapsible>
               <Collapsible>
-                <CollapsibleTrigger className="flex items-center justify-between bg-[#f0f8f0] rounded-lg px-6 py-4 text-lg font-medium">
+                <CollapsibleTrigger className="flex Credits-center justify-between bg-[#f0f8f0] rounded-lg px-6 py-4 text-lg font-medium">
                   How do I get started with carbon trading?
                   <ChevronDownIcon className="w-5 h-5 transition-transform [&[data-state=open]]:rotate-180" />
                 </CollapsibleTrigger>
@@ -160,9 +162,9 @@ export function Homepage() {
           </div>
         </section>
       </main>
-      <footer className="bg-[#f0f8f0] text-muted-foreground py-6 px-4 md:px-6 flex items-center justify-between">
+      <footer className="bg-[#f0f8f0] text-muted-foreground py-6 px-4 md:px-6 flex Credits-center justify-between">
         <p className="text-sm">&copy; 2024 Carbon Exchange. All rights reserved.</p>
-        <div className="flex items-center gap-4">
+        <div className="flex Credits-center gap-4">
           <Link href="#" className="hover:underline" prefetch={false}>
             Privacy Policy
           </Link>
