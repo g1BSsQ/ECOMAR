@@ -3,12 +3,11 @@ import { Button } from "~/components/ui/button"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "~/components/ui/card"
 import {  useEffect, useState } from "react"
 import React from "react"
-import { BlockfrostProvider, policyId } from '@meshsdk/core';
 import { useWalletContext } from '../../context/WalletContext';
+
+
 export function Myaccount() {
-  const blockchainProvider = new BlockfrostProvider(
-    'preprodYMzFVzgCu44kC5cGJ79GQZq5bNipdfwz'
-  );
+
   const credit = {
     policyId: "1234567890",
     title: "Renewable Energy",
@@ -17,7 +16,7 @@ export function Myaccount() {
     address : "addr_test1qzwu6...",
   };
   const [Credits, setCredits] = useState([credit]); 
-  const { name, connecting, connected, wallet, connect, disconnect, error, metadata, getMetadata } = useWalletContext();
+  const { connected, wallet } = useWalletContext();
 
   async function getAssets() {
     if (connected) {

@@ -5,7 +5,7 @@ import { CloudIcon, MenuIcon } from "lucide-react"
 import ConnectionHandler from "./ConnectionHandler";
 export function Header() {
     return (
-        <><Link href="/" className="flex Credits-center gap-2 font-bold text-xl" prefetch={false}>
+        <><Link href="/" className="flex items-center gap-2 font-bold text-xl" prefetch={false}>
             <CloudIcon className="h-6 w-6" />
             Carbon Exchange
         </Link><Avatar className="ml-auto h-8 w-8 rounded-full mr-4">
@@ -13,7 +13,7 @@ export function Header() {
                     <AvatarImage src="/placeholder-user.jpg" alt="User Avatar" />
                 </Link>
                 <AvatarFallback>JD</AvatarFallback>
-            </Avatar><nav className="hidden md:flex Credits-center gap-4">
+            </Avatar><nav className="hidden md:flex items-center gap-4">
                 <Link href="/about" className="hover:underline" prefetch={false}>
                     About
                 </Link>
