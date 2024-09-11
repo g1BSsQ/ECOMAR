@@ -2,10 +2,8 @@ import Link from "next/link"
 import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar"
 import { Button } from "~/components/ui/button"
 import { CloudIcon, MenuIcon } from "lucide-react"
-import { useWallet } from '@meshsdk/react';
 import ConnectionHandler from "./ConnectionHandler";
 export function Header() {
-    const { connected } = useWallet();
     return (
         <><Link href="/" className="flex Credits-center gap-2 font-bold text-xl" prefetch={false}>
             <CloudIcon className="h-6 w-6" />

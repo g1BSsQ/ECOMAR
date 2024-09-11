@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { useWallet } from '@meshsdk/react';
 import { BlockfrostProvider, policyId } from '@meshsdk/core';
 import { title } from 'process';
+=======
+import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { useWallet } from '@meshsdk/react';
+>>>>>>> da2b6f82d734293a4c38ea2874f1fef9e0239dc7
 
 // Cập nhật WalletContextType cho phù hợp với useWallet
 interface WalletContextType {
@@ -12,13 +17,17 @@ interface WalletContextType {
   connect: (walletName: string, extensions?: number[]) => Promise<void>;
   disconnect: () => void;
   error: unknown;
+<<<<<<< HEAD
   metadata: any; // Thay đổi kiểu dữ liệu metadata
   getMetadata: () => Promise<void>; // Thêm hàm getMetadata
+=======
+>>>>>>> da2b6f82d734293a4c38ea2874f1fef9e0239dc7
 }
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined);
 
 export const WalletProvider = ({ children }: { children: ReactNode }) => {
+<<<<<<< HEAD
   const blockchainProvider = new BlockfrostProvider(
     'previewGIAPfLo3R0N2P9ooq4FMsravbuLiSUGF'
   );
@@ -49,6 +58,13 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
   },[wallet])
   return (
     <WalletContext.Provider value={{ name, connecting, connected, wallet, connect, disconnect, error, metadata, getMetadata }}>
+=======
+  // Sử dụng useWallet để lấy dữ liệu
+  const { name, connecting, connected, wallet, connect, disconnect, error } = useWallet(); 
+
+  return (
+    <WalletContext.Provider value={{ name, connecting, connected, wallet, connect, disconnect, error }}>
+>>>>>>> da2b6f82d734293a4c38ea2874f1fef9e0239dc7
       {children}
     </WalletContext.Provider>
   );

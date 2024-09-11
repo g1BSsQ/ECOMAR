@@ -5,6 +5,10 @@ import { Textarea } from "~/components/ui/textarea"
 import React, { useState} from "react";
 import { ForgeScript, Transaction } from "@meshsdk/core";
 import { useWalletContext } from '../../context/WalletContext';
+<<<<<<< HEAD
+=======
+// import { Buffer } from 'buffer'; // Không cần import buffer nữa
+>>>>>>> da2b6f82d734293a4c38ea2874f1fef9e0239dc7
 
 export function Mint() {
   const [credit, setCredit] = useState<File | null>(null); 
@@ -31,7 +35,10 @@ export function Mint() {
       "name": title, 
       "image": "ipfs://QmRzicpReutwCkM6aotuKjErFCUD213DpwPq6ByuzMJaua",
       "mediaType": "image/jpg",
+<<<<<<< HEAD
       "isCredit": "1",
+=======
+>>>>>>> da2b6f82d734293a4c38ea2874f1fef9e0239dc7
       "description": description, 
     };
 
