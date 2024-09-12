@@ -16,6 +16,7 @@ import {
   BlockfrostProvider,
   MeshWallet,
   Transaction,
+  assetName,
 } from '@meshsdk/core';
 import data from '../data/plutus.json'; 
 
@@ -36,13 +37,14 @@ export function SellCredits() {
     unit: '',
     image: '',
     policyId: '',
+    assetName: '',
   }
   const [Credit, setCredit] = useState(credit);
   const [image, setImage] = useState('');
   const {connected, wallet, metadata } = useWalletContext();
   const [address, setAddress] = useState('');
   const [creditQuantity, setQuantity] = useState(1);
-  const [creditPrice, setPrice] = useState(1);
+  const [creditPrice, setPrice] = useState(1); 
 
   useEffect(() => {
     async function getAddress() {
@@ -76,8 +78,8 @@ export function SellCredits() {
     const seller = resolvePaymentKeyHash((await wallet.getUsedAddresses())[0]);
     const quantity = creditQuantity;
     const price = creditPrice.toString();
-    const policyId = "5bd391a490952c7c2c3fbab0c2a775ed9fc1f3bfb1631af209ae525b";
-    const assetName = "6f6b";
+    const policyId = Credit.policyId;
+    const assetName = Credit.assetName;
     const issuer = "addr_test1qpp4h7d9gv9g3gwywks7s6gzz3kna3rwhxalhaeeaqdf8fqrw865whqf4qw0vcw0j0xym6yt5xl63ys97mn4cl0hgdfqxxz3kc";
     
     const datum = {
