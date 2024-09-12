@@ -9,6 +9,15 @@ import { JSX, SVGProps } from "react";
 import { useRouter } from 'next/router';
 import { useWalletContext } from '../../context/WalletContext';
 import { title } from 'process';
+import cbor from "cbor";
+import {
+  resolvePaymentKeyHash,
+  resolvePlutusScriptAddress,
+  BlockfrostProvider,
+  MeshWallet,
+  Transaction,
+} from '@meshsdk/core';
+import data from '../data/plutus.json'; 
 
 export function SellCredits() {
   const router = useRouter();
@@ -32,8 +41,8 @@ export function SellCredits() {
   const [image, setImage] = useState('');
   const {connected, wallet, metadata } = useWalletContext();
   const [address, setAddress] = useState('');
-  const [quantity, setQuantity] = useState(1);
-  const [price, setPrice] = useState("₳1");
+  const [creditQuantity, setQuantity] = useState(1);
+  const [creditPrice, setPrice] = useState(1);
 
   useEffect(() => {
     async function getAddress() {
@@ -53,6 +62,49 @@ export function SellCredits() {
       setImage(ipfsHash);
     },[])
   }
+
+  async function sellCredits() {
+
+    const blockchainProvider = new BlockfrostProvider("previewTjIzqyb4O2tuwuwjqUAJBjzJ60GttqLl");
+
+    const script = {
+      code: cbor
+         .encode(Buffer.from(data.validators[0].compiledCode, "hex")).toString("hex")
+        .toString("hex"),
+      version: "V3",
+    }
+    const seller = resolvePaymentKeyHash((await wallet.getUsedAddresses())[0]);
+    const quantity = creditQuantity;
+    const price = creditPrice.toString();
+    const policyId = "5bd391a490952c7c2c3fbab0c2a775ed9fc1f3bfb1631af209ae525b";
+    const assetName = "6f6b";
+    const issuer = "addr_test1qpp4h7d9gv9g3gwywks7s6gzz3kna3rwhxalhaeeaqdf8fqrw865whqf4qw0vcw0j0xym6yt5xl63ys97mn4cl0hgdfqxxz3kc";
+    
+    const datum = {
+      value: {
+        alternative: 0,
+        fields: [seller, quantity, price, policyId, assetName, issuer]
+      },
+    };
+
+    const tx =  await new Transaction({ initiator: wallet })
+    .sendAssets(
+      {
+        address: resolvePlutusScriptAddress(script, 0),
+        datum,
+      },
+      [
+        {
+          unit: policyId + assetName,
+          quantity: creditQuantity.toString(),
+        },
+      ]
+    );
+    const unsignedTx = await tx.build();
+    const signedTx = await wallet.signTx(unsignedTx);
+    const txHash = await wallet.submitTx(signedTx);
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex flex-1 p-4 space-x-4">
@@ -113,11 +165,12 @@ export function SellCredits() {
                   Quantity:
                 </Label>
                 <Input
-                  id="quantity"
-                  type="number"
-                  className="w-25 text-center mr-9"
+                  id="quantity" 
+                  type="number" 
+                  className="w-25 text-center mr-9" 
                   defaultValue={1}
-                  onChange={(e) => setQuantity(parseInt(e.target.value))}
+                  value={creditQuantity.toString()}
+                  onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
                 />
               <Label htmlFor="price" className="block ml-9 mr-4">
                   Price:   
@@ -127,11 +180,12 @@ export function SellCredits() {
                   type="number"
                   className="w-25 text-center mr-1"
                   placeholder='Input price'
-                  onChange={(e) => setPrice(e.target.value)}
+                  value={creditPrice.toString()}
+                  onChange={(e) => setPrice(parseInt(e.target.value, 10))}
                 />
               <h1 style={{fontWeight: 'bold', fontSize: '25px'}}>₳</h1>
               </div>
-              <Button className="bg-green-600 text-white">Sell Credits</Button>
+              <Button className="bg-green-600 text-white" onClick = {() => sellCredits()}>Sell Credits</Button>
             </div>
           </Card>
           <Card className="mt-4">
