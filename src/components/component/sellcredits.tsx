@@ -8,6 +8,7 @@ import { Input } from "~/components/ui/input";
 import { JSX, SVGProps } from "react";
 import { useRouter } from 'next/router';
 import { useWalletContext } from '../../context/WalletContext';
+import { title } from 'process';
 
 export function SellCredits() {
   const router = useRouter();
@@ -19,16 +20,15 @@ export function SellCredits() {
     }
     return null;
   };
-
   const credit = {
-    policyId: "1234567890",
-    title: "Renewable Energy",
-    description: "energy carbon credits from a wind farm project",
-    quantity: 1000,
-    address: "addr_test1qzwu6...",
-  };
-
-  const [Credit, setCredit] = useState([credit]);
+    title: '',
+    description: '',
+    quantity: 0,
+    unit: '',
+    image: '',
+    policyId: '',
+  }
+  const [Credit, setCredit] = useState(credit);
   const [image, setImage] = useState('');
   const {connected, wallet, metadata } = useWalletContext();
   const [address, setAddress] = useState('');
@@ -43,14 +43,16 @@ export function SellCredits() {
       }
     };
     getAddress();
-    if (metadata) {
+
+  }, [connected]);
+  if (metadata) {
+    useEffect(()=>{
       const asset = metadata.find((item: any) => item.unit === id);
       setCredit(asset);
       const ipfsHash = extractIpfsHash(asset.image);
       setImage(ipfsHash);
-    }
-  }, [connected]);
-
+    },[])
+  }
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex flex-1 p-4 space-x-4">

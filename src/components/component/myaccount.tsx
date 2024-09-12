@@ -8,25 +8,13 @@ import { useWalletContext } from '../../context/WalletContext';
 
 export function Myaccount() {
 
-  const credit = {
-    policyId: "1234567890",
-    title: "Renewable Energy",
-    description: "energy carbon credits from a wind farm project",
-    quantity: 1000,
-    address : "addr_test1qzwu6...",
-  };
-  const [Credits, setCredits] = useState([credit]); 
-  const { connected, wallet } = useWalletContext();
-
-  async function getAssets() {
-    if (connected) {
-      const _assets = await wallet.getAssets();
-      setCredits(_assets);
+  const [Credits, setCredits] = useState([]); 
+  const {metadata} = useWalletContext();
+  useEffect(() => {
+    if (metadata) {
+      setCredits(metadata);
     }
-  }
-  useEffect(()=>{
-    getAssets();
-  },[connected])
+  }, [metadata]);
   return (
     <div className="min-h-screen bg-gray-100">
       <main className="container mx-auto p-4">
@@ -43,7 +31,7 @@ export function Myaccount() {
                   <div className="text-sm text-muted-foreground">{credit.quantity + " available"}</div>
                 </CardContent>
                 <CardFooter className="flex justify-center">
-                  <Link href={`/detail/${credit.policyId + credit.assetName}`} className="hover:underline" prefetch={false}>
+                  <Link href={`/detail/${credit.unit}`} className="hover:underline" prefetch={false}>
                     <Button
                       className="w-full bg-green-700 text-white"
                     >
