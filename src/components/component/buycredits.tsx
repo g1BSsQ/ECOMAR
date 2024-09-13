@@ -13,7 +13,7 @@ export function BuyCredits() {
     if (url.startsWith('ipfs://')) {
       return url.split('ipfs://')[1];
     }
-    return null;
+    return "";
   };
   const marketCredit = {
     title: '',

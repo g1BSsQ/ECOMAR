@@ -5,11 +5,9 @@ import {  useEffect, useState } from "react"
 import React from "react"
 import { useWalletContext } from '../../context/WalletContext';
 
-
-
 export function Myaccount() {
 
-  const [Credits, setCredits] = useState([]); 
+  const [Credits, setCredits] = useState<any[]>([]);
   const {connected, metadata} = useWalletContext();
   useEffect(() => {
     if (metadata) {

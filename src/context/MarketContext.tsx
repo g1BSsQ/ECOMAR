@@ -9,7 +9,6 @@ interface MarketContextType {
 const MarketContext = createContext<MarketContextType | undefined>(undefined);
 
 export const MarketProvider = ({ children }: { children: ReactNode }) => {
-    // Khai báo state marketCredits
     const [marketCredits, setMarketCredits] = useState<any[]>([]); 
     function subtractStrings(s: string, t: string): string {
         if (s.includes(t)) {
@@ -42,10 +41,11 @@ export const MarketProvider = ({ children }: { children: ReactNode }) => {
                 unit : response[1].output.amount[1].unit,
                 policyId :  subtractStrings(response[1].output.amount[1].unit, hexString),
                 image: asset.image,
+
             }
             credits.push(credit);
         }
-        setMarketCredits(credits); // Cập nhật state
+        setMarketCredits(credits); 
     }
     useEffect(()=>{
         getCarbonCredits();

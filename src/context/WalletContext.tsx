@@ -43,7 +43,7 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
           unit: _assets[i].unit,
           image : asset.image,
           policyId: _assets[i].policyId,
-          assetName: _assets[i].assetName, // thêm dòng này 
+          assetName: _assets[i].assetName, 
         }
         if(credit.isCredit){
           fetchedMetadata.push(credit);
