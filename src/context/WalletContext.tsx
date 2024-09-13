@@ -13,6 +13,7 @@ interface WalletContextType {
   error: unknown;
   metadata: any; // Thay đổi kiểu dữ liệu metadata
   getMetadata: () => Promise<void>; // Thêm hàm getMetadata
+  address: string;
 }
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined);
@@ -24,13 +25,18 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
   // Sử dụng useWallet để lấy dữ liệu
   const { name, connecting, connected, wallet, connect, disconnect, error ,} = useWallet(); 
   const [metadata, setMetadata] = useState<any>(null);
+  const [address, setAddress] = useState('');
   async function getMetadata() {
     if(connected){
       const fetchedMetadata = [];
       const _assets = await wallet.getAssets();
+      const data = await wallet.getChangeAddress();
+      console.log(data);
+      setAddress(data);
       for(let i =0; i<_assets.length; i++){
         const asset = await blockchainProvider.fetchAssetMetadata(_assets[i].unit);
-        const data = {
+        const credit = {
+          isCredit: 1,  
           title : asset.name,
           description : asset.description,
           quantity : _assets[i].quantity,
@@ -39,16 +45,18 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
           policyId: _assets[i].policyId,
           assetName: _assets[i].assetName, // thêm dòng này 
         }
-        fetchedMetadata.push(data);
+        if(credit.isCredit){
+          fetchedMetadata.push(credit);
+        }
       }
       setMetadata(fetchedMetadata);
     }
   }
   useEffect(()=>{
     getMetadata();
-  },[wallet])
+  },[wallet]);
   return (
-    <WalletContext.Provider value={{ name, connecting, connected, wallet, connect, disconnect, error, metadata, getMetadata }}>
+    <WalletContext.Provider value={{ name, connecting, connected, wallet, connect, disconnect, error, metadata, getMetadata,blockchainProvider,address }}>
       {children}
     </WalletContext.Provider>
   );

@@ -6,15 +6,21 @@ import React from "react"
 import { useWalletContext } from '../../context/WalletContext';
 
 
+
 export function Myaccount() {
 
   const [Credits, setCredits] = useState([]); 
-  const {metadata} = useWalletContext();
+  const {connected, metadata} = useWalletContext();
   useEffect(() => {
     if (metadata) {
       setCredits(metadata);
     }
   }, [metadata]);
+  useEffect(()=>{
+    if(!connected){
+      setCredits([]);
+    }
+  },[connected]);
   return (
     <div className="min-h-screen bg-gray-100">
       <main className="container mx-auto p-4">
@@ -31,7 +37,7 @@ export function Myaccount() {
                   <div className="text-sm text-muted-foreground">{credit.quantity + " available"}</div>
                 </CardContent>
                 <CardFooter className="flex justify-center">
-                  <Link href={`/detail/${credit.unit}`} className="hover:underline" prefetch={false}>
+                  <Link href={`/sell/detail/${credit.unit}`} className="hover:underline" prefetch={false}>
                     <Button
                       className="w-full bg-green-700 text-white"
                     >

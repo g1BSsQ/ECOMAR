@@ -8,13 +8,10 @@ import { Input } from "~/components/ui/input";
 import { JSX, SVGProps } from "react";
 import { useRouter } from 'next/router';
 import { useWalletContext } from '../../context/WalletContext';
-import { title } from 'process';
 import cbor from "cbor";
 import {
   resolvePaymentKeyHash,
   resolvePlutusScriptAddress,
-  BlockfrostProvider,
-  MeshWallet,
   Transaction,
   assetName,
 } from '@meshsdk/core';
@@ -56,25 +53,22 @@ export function SellCredits() {
     getAddress();
 
   }, [connected]);
-  if (metadata) {
-    useEffect(()=>{
-      const asset = metadata.find((item: any) => item.unit === id);
-      setCredit(asset);
-      const ipfsHash = extractIpfsHash(asset.image);
-      setImage(ipfsHash);
-    },[])
-  }
+  useEffect(()=>{
+    if (metadata) {
+      const credits = metadata.find((credit: any) => credit.unit === id);
+      setCredit(credits);
+      setImage(extractIpfsHash(credits.image));
+    }
+  },[connected, metadata]);
 
   async function sellCredits() {
-
-    const blockchainProvider = new BlockfrostProvider("previewTjIzqyb4O2tuwuwjqUAJBjzJ60GttqLl");
-
     const script = {
       code: cbor
          .encode(Buffer.from(data.validators[0].compiledCode, "hex")).toString("hex")
         .toString("hex"),
       version: "V3",
     }
+
     const seller = resolvePaymentKeyHash((await wallet.getUsedAddresses())[0]);
     const quantity = creditQuantity;
     const price = creditPrice.toString();
@@ -102,9 +96,16 @@ export function SellCredits() {
         },
       ]
     );
+
     const unsignedTx = await tx.build();
-    const signedTx = await wallet.signTx(unsignedTx);
-    const txHash = await wallet.submitTx(signedTx);
+    try{
+      const signedTx = await wallet.signTx(unsignedTx);
+      const txHash = await wallet.submitTx(signedTx);
+
+    }
+    catch(e){
+      console.log(e);
+    }
   }
 
   return (

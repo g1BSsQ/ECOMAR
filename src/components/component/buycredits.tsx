@@ -3,36 +3,69 @@ import { Card, CardHeader, CardTitle, CardContent } from "~/components/ui/card"
 import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar"
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "~/components/ui/table"
 import { Label } from "../ui/label"
-import { Input } from "../ui/input"
-import { JSX, SVGProps } from "react"
-
+import { JSX, SVGProps, useEffect, useState } from "react"
+import { useMarketContext } from "~/context/MarketContext"
+import { useRouter } from 'next/router';
 export function BuyCredits() {
+  const router = useRouter();
+  const { id } = router.query;
+  const extractIpfsHash = (url: string) => {
+    if (url.startsWith('ipfs://')) {
+      return url.split('ipfs://')[1];
+    }
+    return null;
+  };
+  const marketCredit = {
+    title: '',
+    quantity: 0,
+    image: '',
+    policyId: '',
+    ownerAddress: '',
+  }
+  const { marketCredits } = useMarketContext();
+  const [image, setImage] = useState('');
+  const [Credit, setCredit] = useState(marketCredit);
+  const credit = marketCredits.find((credit: any) => credit.unit+ credit.ownerAddress === id);
+
+  useEffect(()=>{
+    if(credit){
+      setCredit(credit);
+      setImage(extractIpfsHash(credit.image));
+    }
+  },[credit]);
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex flex-1 p-4 space-x-4">
-        <div className="flex-1 border border-gray-300" />
-        <div className="w-[641px]">
+        <div className="flex-1 border border-gray-300">
+        <img
+            src={`https://gateway.pinata.cloud/ipfs/${image}`}
+            style={{ width: '100%', height: 'auto' }}
+            alt="Image"
+          />
+        </div>
+        
+        <div className="w-[741px]">
           <Card className="mb-4">
             <CardHeader>
-              <CardTitle>Product 1</CardTitle>
+              <CardTitle> {Credit.title} </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
                 <div>
                   <span className="font-semibold">PolicyId:</span>{" "}
-                  b9e172a1afad9f6c58dea3e016fe4f37c3cef55d0c1e87cd0b42de
+                  {Credit.policyId}
                   <Button variant="ghost" size="icon" className="ml-2">
                     <CopyIcon className="w-4 h-4" />
                   </Button>
                 </div>
                 <div>
                   <span className="font-semibold">Issuer:</span>
-                  <div className="flex Credits-center space-x-2">
+                  <div className="flex items-center space-x-2">
                     <Avatar>
                       <AvatarImage src="/placeholder-user.jpg" alt="Issuer" />
                       <AvatarFallback>IS</AvatarFallback>
                     </Avatar>
-                    <span>addr_test1qzwu6...</span>
+                    <span style={{ fontSize: '10px' }}>addr_test1qzwu6...</span>
                     <Button variant="ghost" size="icon" className="ml-2">
                       <CopyIcon className="w-4 h-4" />
                     </Button>
@@ -40,12 +73,12 @@ export function BuyCredits() {
                 </div>
                 <div>
                   <span className="font-semibold">Owner:</span>
-                  <div className="flex Credits-center space-x-2">
+                  <div className="flex items-center space-x-2">
                     <Avatar>
                       <AvatarImage src="/placeholder-user.jpg" alt="Owner" />
                       <AvatarFallback>OW</AvatarFallback>
                     </Avatar>
-                    <span>addr_test1qpkxr...</span>
+                    <span style={{ fontSize: '10px' }}> {Credit.ownerAddress} </span>
                     <Button variant="ghost" size="icon" className="ml-2">
                       <CopyIcon className="w-4 h-4" />
                     </Button>
@@ -54,15 +87,19 @@ export function BuyCredits() {
               </div>
             </CardContent>
           </Card>
-          <Card className="flex Credits-center justify-between p-4 border-t border-gray-300">
-          <div className="flex Credits-center space-x-3">
-            <Label htmlFor="quantity" className="block">
-              Quantity:
-            </Label>
-            <Input id="quantity" type="number" className="w-25 text-center" defaultValue={1} />
-          </div>
-          <div className="text-2xl font-bold">$100</div>
-            <Button className="bg-green-600 text-white">Buy Credit</Button>
+          <Card className="p-4 border-t border-gray-300">
+            <div className="flex flex-col space-y-4">
+              <div className="flex items-center ">
+                <Label htmlFor="quantity" className="block mr-4">
+                  {"Quantity:     "  +  Credit.quantity}
+                </Label>
+              <Label htmlFor="price" className="block ml-9 mr-4">
+                  Price:   1000
+                </Label>
+              <h1 style={{fontWeight: 'bold', fontSize: '25px'}}>₳</h1>
+              </div>
+              <Button className="bg-green-600 text-white">Buy Now</Button>
+            </div>
           </Card>
           <Card className="mt-4">
             <CardHeader>
@@ -84,7 +121,7 @@ export function BuyCredits() {
                     <TableCell>$50</TableCell>
                     <TableCell>50</TableCell>
                     <TableCell>
-                      <div className="flex Credits-center">
+                      <div className="flex items-center">
                         <span>0x123456789abcdef0123456789abcdef</span>
                         <Button variant="ghost" size="icon" className="ml-2">
                           <CopyIcon className="w-4 h-4" />
@@ -97,7 +134,7 @@ export function BuyCredits() {
                     <TableCell>$25</TableCell>
                     <TableCell>25</TableCell>
                     <TableCell>
-                      <div className="flex Credits-center">
+                      <div className="flex items-center">
                         <span>0x987654321fedcba0987654321fedcba</span>
                         <Button variant="ghost" size="icon" className="ml-2">
                           <CopyIcon className="w-4 h-4" />
@@ -110,7 +147,7 @@ export function BuyCredits() {
                     <TableCell>$75</TableCell>
                     <TableCell>75</TableCell>
                     <TableCell>
-                      <div className="flex Credits-center">
+                      <div className="flex items-center">
                         <span>0xabcdef0123456789abcdef0123456789</span>
                         <Button variant="ghost" size="icon" className="ml-2">
                           <CopyIcon className="w-4 h-4" />
@@ -127,7 +164,6 @@ export function BuyCredits() {
     </div>
   )
 }
-
 function CopyIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (
     <svg
