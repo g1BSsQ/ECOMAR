@@ -1,11 +1,9 @@
-import Link from "next/link"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "~/components/ui/collapsible"
-import { CheckIcon, ChevronDownIcon, CompassIcon, MailIcon, MapPinIcon, PhoneIcon, PieChartIcon, ZapIcon } from "lucide-react"
+import { CheckIcon, ChevronDownIcon, CompassIcon, PieChartIcon, ZapIcon } from "lucide-react"
 
 export function Homepage() {
 
   return (
-    
     <div className="flex flex-col min-h-[100dvh]">
       <main className="flex-1">
         <section id="about" className="py-12 md:py-20 bg-[#f0f8f0]">
@@ -16,7 +14,7 @@ export function Homepage() {
                 We are a leading carbon trading platform that connects businesses and individuals looking to offset
                 their carbon footprint. Our mission is to facilitate the transition to a low-carbon economy by providing
                 a transparent and efficient marketplace for carbon credits.
-              </p>
+              </p>  
             </div>
           </div>
         </section>
@@ -137,43 +135,6 @@ export function Homepage() {
           </div>
         </section>
       </main>
-      <footer className="bg-[#f0f8f0] text-muted-foreground py-12 px-4 md:px-6 flex flex-col md:flex-row items-center justify-between">
-  <div className="flex flex-col md:flex-row items-center gap-4 ">
-    <p className="text-sm">© 2024 Carbon Exchange. All rights reserved.</p>
-  </div>
-  <div className="flex flex-col md:flex-row items-center gap-4 ">
-    <div className="flex flex-col"> {/* Thay đổi thành flex-col */ }
-      <div className="flex items-center gap-4 mb-5">
-        <Link href="#" className="hover:underline" prefetch={false}>
-          Privacy Policy
-        </Link>
-      </div>
-      <div className="flex items-center gap-4 mb-5">
-        <Link href="#" className="hover:underline" prefetch={false}>
-          Terms of Service
-        </Link>
-      </div>
-    </div>
-  </div>
-  <div className="mt-4 md:mt-0">  
-    <div className="flex items-center gap-2 mb-5">
-      <PhoneIcon className="w-5 h-5" />
-      <a href="#" className="hover:underline">
-        091 267 5677
-      </a>
-    </div>
-    <div className="flex items-center gap-2 mb-5">
-      <MailIcon className="w-5 h-5" />
-      <a href="#" className="hover:underline">
-        hung231230806@lms.utc.edu.vn
-      </a>
-    </div>
-    <div className="flex items-center gap-2 mb-5">
-      <MapPinIcon className="w-5 h-5"/>
-      <span>University of Transport and Communications - No.3 Cau Giay, Ha Noi, Vietnam</span>
-    </div>
-  </div>
-</footer>
     </div>
   )
 }

@@ -74,12 +74,11 @@ export function SellCredits() {
     const price = creditPrice.toString();
     const policyId = Credit.policyId;
     const assetName = Credit.assetName;
-    const issuer = "addr_test1qpp4h7d9gv9g3gwywks7s6gzz3kna3rwhxalhaeeaqdf8fqrw865whqf4qw0vcw0j0xym6yt5xl63ys97mn4cl0hgdfqxxz3kc";
     
     const datum = {
       value: {
         alternative: 0,
-        fields: [seller, quantity, price, policyId, assetName, issuer]
+        fields: [policyId, assetName, seller, price, quantity]
       },
     };
 

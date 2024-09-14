@@ -5,6 +5,7 @@ import { Header } from "~/components/component/header";
 import { ChakraProvider} from "@chakra-ui/react";
 import { WalletProvider } from '../context/WalletContext'; // Import WalletProviderrt
 import { MarketProvider } from '../context/MarketContext'; // Import MarketProvider
+import { Footer } from "~/components/component/footer";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     
@@ -25,6 +26,9 @@ function MyApp({ Component, pageProps }: AppProps) {
               <Header></Header>
           </header>
           <Component {...pageProps} />
+          <footer className="bg-[#f0f8f0] text-muted-foreground py-12 px-4 md:px-6 flex flex-col md:flex-row items-center justify-between">
+              <Footer></Footer>
+          </footer>
           </ChakraProvider>
       </MarketProvider>
     </WalletProvider>

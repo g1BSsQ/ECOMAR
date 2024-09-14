@@ -39,7 +39,7 @@ export function Mint() {
       assetName: title, 
       assetQuantity: quantity.toString(), 
       metadata: assetMetadata,
-      label: '721',
+      label: '20',
       recipient: address,
     };
 

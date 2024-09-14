@@ -6,6 +6,9 @@ import { Label } from "../ui/label"
 import { JSX, SVGProps, useEffect, useState } from "react"
 import { useMarketContext } from "~/context/MarketContext"
 import { useRouter } from 'next/router';
+import {Transaction } from "@meshsdk/core"
+import { useWalletContext } from "~/context/WalletContext"
+
 export function BuyCredits() {
   const router = useRouter();
   const { id } = router.query;
@@ -21,7 +24,13 @@ export function BuyCredits() {
     image: '',
     policyId: '',
     ownerAddress: '',
+    unit: '', 
+    assetName: '',
+    assetUTxO: {},
+    script: {},
   }
+  
+  const {wallet} = useWalletContext();
   const { marketCredits } = useMarketContext();
   const [image, setImage] = useState('');
   const [Credit, setCredit] = useState(marketCredit);
@@ -33,6 +42,37 @@ export function BuyCredits() {
       setImage(extractIpfsHash(credit.image));
     }
   },[credit]);
+
+  async function buyCredits() {
+
+    const assetUtxo = Credit.assetUTxO;
+
+    const buyer = await wallet.getChangeAddress();
+
+    const seller = Credit.ownerAddress;
+    const quantity = Credit.quantity;
+    const price = "1";
+    const policyId = Credit.policyId;
+    const assetName = Credit.assetName;
+    
+    const datum = {
+      alternative: 0,
+      fields: [policyId, assetName, seller, price, quantity ],
+    };
+
+    const tx = new Transaction({ initiator: wallet }).redeemValue({
+      value: assetUtxo,
+      script: Credit.script, 
+      datum: datum,
+    })
+    .sendValue(buyer, assetUtxo)
+    .setRequiredSigners([buyer]);
+
+  const unsignedTx = await tx.build();
+  const signedTx = await wallet.signTx(unsignedTx, true);
+  const txHash = await wallet.submitTx(signedTx);
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex flex-1 p-4 space-x-4">
@@ -98,7 +138,7 @@ export function BuyCredits() {
                 </Label>
               <h1 style={{fontWeight: 'bold', fontSize: '25px'}}>₳</h1>
               </div>
-              <Button className="bg-green-600 text-white">Buy Now</Button>
+              <Button className="bg-green-600 text-white" onClick = {() => buyCredits()} >Buy Now</Button>
             </div>
           </Card>
           <Card className="mt-4">
@@ -164,6 +204,7 @@ export function BuyCredits() {
     </div>
   )
 }
+
 function CopyIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -183,4 +224,3 @@ function CopyIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
     </svg>
   )
 }
-
