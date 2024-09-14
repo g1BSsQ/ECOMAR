@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { BlockfrostProvider, } from '@meshsdk/core';
+import { useWalletContext } from './WalletContext';
 
 
 interface MarketContextType {
@@ -7,7 +8,7 @@ interface MarketContextType {
 }
 
 const MarketContext = createContext<MarketContextType | undefined>(undefined);
-
+//const {connected} = useWalletContext();
 export const MarketProvider = ({ children }: { children: ReactNode }) => {
     const [marketCredits, setMarketCredits] = useState<any[]>([]); 
     function subtractStrings(s: string, t: string): string {
@@ -26,11 +27,13 @@ export const MarketProvider = ({ children }: { children: ReactNode }) => {
           );
 
         const size = data.length;
+        console.log(data);
         const credits = [];
         for(let i=0; i<size; i++){
             const txhash = data[i].input.txHash;
             const response = await blockchainProvider.fetchUTxOs(txhash);
-            const asset = await blockchainProvider.fetchAssetMetadata(response[1].output.amount[1].unit);
+            console.log(response);
+            const asset = await blockchainProvider.fetchAssetMetadata(data[i].output.amount[1].unit);
             const utf8Buffer = Buffer.from(asset.name, 'utf8');
             const hexString = utf8Buffer.toString('hex');
 
@@ -38,8 +41,8 @@ export const MarketProvider = ({ children }: { children: ReactNode }) => {
                 title: asset.name,
                 ownerAddress : response[1].output.address,
                 quantity : data[i].output.amount[1].quantity,
-                unit : response[1].output.amount[1].unit,
-                policyId :  subtractStrings(response[1].output.amount[1].unit, hexString),
+                unit : data[i].output.amount[1].unit,
+                policyId :  subtractStrings(data[i].output.amount[1].unit, hexString),
                 image: asset.image,
 
             }
