@@ -8,14 +8,7 @@ import { Input } from "~/components/ui/input";
 import { JSX, SVGProps } from "react";
 import { useRouter } from 'next/router';
 import { useWalletContext } from '../../context/WalletContext';
-import cbor from "cbor";
-import {
-  resolvePaymentKeyHash,
-  resolvePlutusScriptAddress,
-  Transaction,
-  assetName,
-} from '@meshsdk/core';
-import data from '../data/plutus.json'; 
+import { useContractContext } from '~/context/ContractContext';
 
 export function SellCredits() {
   const router = useRouter();
@@ -42,7 +35,6 @@ export function SellCredits() {
   const [address, setAddress] = useState('');
   const [creditQuantity, setQuantity] = useState(1);
   const [creditPrice, setPrice] = useState(1); 
-
   useEffect(() => {
     async function getAddress() {
       if (connected) {
@@ -61,50 +53,21 @@ export function SellCredits() {
     }
   },[connected, metadata]);
 
+  const {contract} = useContractContext();
   async function sellCredits() {
-    const script = {
-      code: cbor
-         .encode(Buffer.from(data.validators[0].compiledCode, "hex")).toString("hex")
-        .toString("hex"),
-      version: "V3",
-    }
-
-    const seller = resolvePaymentKeyHash((await wallet.getUsedAddresses())[0]);
-    const quantity = creditQuantity;
-    const price = creditPrice.toString();
-    const policyId = Credit.policyId;
-    const assetName = Credit.assetName;
-    
-    const datum = {
-      value: {
-        alternative: 0,
-        fields: [policyId, assetName, seller, price, quantity]
-      },
-    };
-
-    const tx =  await new Transaction({ initiator: wallet })
-    .sendAssets(
-      {
-        address: resolvePlutusScriptAddress(script, 0),
-        datum,
-      },
-      [
-        {
-          unit: policyId + assetName,
-          quantity: creditQuantity.toString(),
-        },
-      ]
-    );
-
-    const unsignedTx = await tx.build();
-    try{
-      const signedTx = await wallet.signTx(unsignedTx);
+     
+    try
+    { 
+      const tx = await contract.listAsset(Credit.unit, creditPrice*1000000);
+      const signedTx = await wallet.signTx(tx);
       const txHash = await wallet.submitTx(signedTx);
-
+      router.push("/");
     }
-    catch(e){
+    catch(e)
+    {
       console.log(e);
     }
+
   }
 
   return (

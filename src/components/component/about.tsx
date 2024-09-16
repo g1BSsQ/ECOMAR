@@ -97,7 +97,7 @@ export default function About() {
             Start Trading
           </Button>
         </section>
-      </main>q
+      </main>
     </div>
   )
 }

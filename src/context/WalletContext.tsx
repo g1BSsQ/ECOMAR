@@ -56,7 +56,7 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
     getMetadata();
   },[wallet]);
   return (
-    <WalletContext.Provider value={{ name, connecting, connected, wallet, connect, disconnect, error, metadata, getMetadata,blockchainProvider,address }}>
+    <WalletContext.Provider value={{ name, connecting, connected, wallet, connect, disconnect, error, metadata, getMetadata, blockchainProvider,address }}>
       {children}
     </WalletContext.Provider>
   );

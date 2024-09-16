@@ -5,7 +5,9 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "~
 import { Label } from "../ui/label"
 import { JSX, SVGProps, useEffect, useState } from "react"
 import { useMarketContext } from "~/context/MarketContext"
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';  
+import { useContractContext } from "~/context/ContractContext"
+import { useWalletContext } from "~/context/WalletContext"
 export function RefundCredits() {
   const router = useRouter();
   const { id } = router.query;
@@ -21,12 +23,26 @@ export function RefundCredits() {
     image: '',
     policyId: '',
     ownerAddress: '',
+    txhash: '',
   }
   const { marketCredits } = useMarketContext();
   const [image, setImage] = useState('');
   const [Credit, setCredit] = useState(marketCredit);
   const credit = marketCredits.find((credit: any) => credit.unit+ credit.ownerAddress === id);
-
+  const {contract} = useContractContext();
+  const {wallet} = useWalletContext();
+  async function HandleRefund() {
+    const utxo = await contract.getUtxoByTxHash(Credit.txhash);
+    const tx = await contract.delistAsset(utxo);
+    try
+    {
+      const signedTx = await wallet.signTx(tx); 
+      const txHash = await wallet.submitTx(signedTx);
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
   useEffect(()=>{
     if(credit){
       setCredit(credit);
@@ -98,7 +114,9 @@ export function RefundCredits() {
                 </Label>
               <h1 style={{fontWeight: 'bold', fontSize: '25px'}}>₳</h1>
               </div>
-              <Button className="bg-green-600 text-white">Refund</Button>
+              <Button 
+              onClick={HandleRefund} 
+              className="bg-blue-600 text-white">Refund</Button>
             </div>
           </Card>
           <Card className="mt-4">

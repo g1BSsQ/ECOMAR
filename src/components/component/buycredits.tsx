@@ -6,8 +6,8 @@ import { Label } from "../ui/label"
 import { JSX, SVGProps, useEffect, useState } from "react"
 import { useMarketContext } from "~/context/MarketContext"
 import { useRouter } from 'next/router';
-import {Transaction } from "@meshsdk/core"
 import { useWalletContext } from "~/context/WalletContext"
+import { useContractContext } from "~/context/ContractContext"
 
 export function BuyCredits() {
   const router = useRouter();
@@ -24,14 +24,11 @@ export function BuyCredits() {
     image: '',
     policyId: '',
     ownerAddress: '',
-    unit: '', 
-    assetName: '',
-    assetUTxO: {},
-    script: {},
+    txhash: '',
   }
   
   const {wallet} = useWalletContext();
-  const { marketCredits } = useMarketContext();
+  const { marketCredits } = useMarketContext(); 
   const [image, setImage] = useState('');
   const [Credit, setCredit] = useState(marketCredit);
   const credit = marketCredits.find((credit: any) => credit.unit+ credit.ownerAddress === id);
@@ -43,34 +40,19 @@ export function BuyCredits() {
     }
   },[credit]);
 
+  const {contract} = useContractContext();
+
   async function buyCredits() {
+    const utxo = await contract.getUtxoByTxHash(Credit.txhash);   
+    const tx = await contract.purchaseAsset(utxo);
+    try{
+      const signedTx = await wallet.signTx(tx);
+      const txHash = await wallet.submitTx(signedTx);
+    }
+    catch(e){
+      console.log(e);
+    }
 
-    const assetUtxo = Credit.assetUTxO;
-
-    const buyer = await wallet.getChangeAddress();
-
-    const seller = Credit.ownerAddress;
-    const quantity = Credit.quantity;
-    const price = "1";
-    const policyId = Credit.policyId;
-    const assetName = Credit.assetName;
-    
-    const datum = {
-      alternative: 0,
-      fields: [policyId, assetName, seller, price, quantity ],
-    };
-
-    const tx = new Transaction({ initiator: wallet }).redeemValue({
-      value: assetUtxo,
-      script: Credit.script, 
-      datum: datum,
-    })
-    .sendValue(buyer, assetUtxo)
-    .setRequiredSigners([buyer]);
-
-  const unsignedTx = await tx.build();
-  const signedTx = await wallet.signTx(unsignedTx, true);
-  const txHash = await wallet.submitTx(signedTx);
   }
 
   return (

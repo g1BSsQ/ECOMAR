@@ -6,6 +6,7 @@ import { ChakraProvider} from "@chakra-ui/react";
 import { WalletProvider } from '../context/WalletContext'; // Import WalletProviderrt
 import { MarketProvider } from '../context/MarketContext'; // Import MarketProvider
 import { Footer } from "~/components/component/footer";
+import { ContractProvider } from "~/context/ContractContext";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     
@@ -13,6 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       
       <WalletProvider>
         <MarketProvider>
+          <ContractProvider>
           <ChakraProvider
           toastOptions={{
             defaultOptions: {
@@ -30,6 +32,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               <Footer></Footer>
           </footer>
           </ChakraProvider>
+          </ContractProvider>
       </MarketProvider>
     </WalletProvider>
     </MeshProvider>

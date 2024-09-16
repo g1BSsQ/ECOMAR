@@ -22,22 +22,17 @@ export const MarketProvider = ({ children }: { children: ReactNode }) => {
         'previewGIAPfLo3R0N2P9ooq4FMsravbuLiSUGF'
       );
   
-      const script = {
-        code: cbor
-           .encode(Buffer.from(dataScript.validators[0].compiledCode, "hex")).toString("hex")
-          .toString("hex"),
-        version: "V3",
-      }
   
-      const addr = resolvePlutusScriptAddress(script, 0)
-      const data = await blockchainProvider.fetchAddressUTxOs(addr);
-      
+      const data = await blockchainProvider.fetchAddressUTxOs("addr_test1wqhh0xnmsjwfsx7jjjqnnkepglvzkq282dagdlggucx07zsl5hzsm");
+        console.log(data);
         const size = data.length;
         const credits = [];
         for(let i=0; i<size; i++){
             const txhash = data[i].input.txHash;
             const response = await blockchainProvider.fetchUTxOs(txhash);
-            const asset = await blockchainProvider.fetchAssetMetadata(response[1].output.amount[1].unit);
+            console.log(22222);
+            console.log(response);
+            const asset = await blockchainProvider.fetchAssetMetadata(response[0].output.amount[1].unit);
             const utf8Buffer = Buffer.from(asset.name, 'utf8');
             const hexString = utf8Buffer.toString('hex');
 
@@ -45,13 +40,11 @@ export const MarketProvider = ({ children }: { children: ReactNode }) => {
                 title: asset.name,
                 ownerAddress : response[1].output.address,
                 quantity : data[i].output.amount[1].quantity,
-                unit : response[1].output.amount[1].unit,
-                policyId :  subtractStrings(response[1].output.amount[1].unit, hexString),
+                unit : response[0].output.amount[1].unit,
+                policyId :  subtractStrings(response[0].output.amount[1].unit, hexString),
                 assetName : hexString,
-                assetUTxO :data[i],
                 image: asset.image,
-                script: script,
-
+                txhash: txhash,
             }
             credits.push(credit);
         }

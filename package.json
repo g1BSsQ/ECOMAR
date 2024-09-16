@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
+    "@meshsdk/contract": "^1.7.6",
     "@meshsdk/core": "^1.5.25",
     "@meshsdk/react": "^1.1.12",
     "@radix-ui/react-avatar": "^1.1.0",
