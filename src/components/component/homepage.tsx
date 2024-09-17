@@ -9,7 +9,7 @@ export function Homepage() {
         <section id="about" className="py-12 md:py-20 bg-[#f0f8f0]">
           <div className="container px-4 md:px-6 grid gap-8 md:grid-cols-2 Credits-center">
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold">Welcome to Carbon Exchange</h1>
+              <h1 className="text-3xl md:text-4xl font-bold">Offset your carbon footprint and make a difference</h1>
               <p className="text-muted-foreground mt-4">
                 We are a leading carbon trading platform that connects businesses and individuals looking to offset
                 their carbon footprint. Our mission is to facilitate the transition to a low-carbon economy by providing

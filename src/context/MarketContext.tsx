@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { BlockfrostProvider, resolvePlutusScriptAddress, } from '@meshsdk/core';
-import dataScript from '../components/data/plutus.json';
-import cbor from 'cbor';
+import { BlockfrostProvider} from '@meshsdk/core';
+
 interface MarketContextType {
     marketCredits: any[]; 
+    setMarketCredits: (marketCredits: any[]) => void;
 }
 
 const MarketContext = createContext<MarketContextType | undefined>(undefined);
@@ -45,6 +45,7 @@ export const MarketProvider = ({ children }: { children: ReactNode }) => {
                 assetName : hexString,
                 image: asset.image,
                 txhash: txhash,
+                description: asset.description,
             }
             credits.push(credit);
         }
@@ -54,7 +55,7 @@ export const MarketProvider = ({ children }: { children: ReactNode }) => {
         getCarbonCredits();
     },[]);
   return (
-    <MarketContext.Provider value={{marketCredits}}> 
+    <MarketContext.Provider value={{marketCredits, setMarketCredits}}> 
       {children}
     </MarketContext.Provider>
   );

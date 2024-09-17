@@ -41,11 +41,12 @@ export function Marketplace() {
               <div className="text-sm text-muted-foreground">{Credit.quantity+ "available"}</div>
             </CardContent>
             <CardFooter className="flex justify-center">
-            <Button 
-                onClick={() => handleClick(connected , Credit.ownerAddress, Credit)}
-                className="w-full bg-green-700 text-white hover:underline">
-                { (connected && Credit.ownerAddress === address) ? "Refund" : "Buy" }
-          </Button>
+            <Button
+                            onClick={() => handleClick(connected, Credit.ownerAddress, Credit)}
+                            className={`w-full text-white hover:underline ${connected && Credit.ownerAddress === address ? 'bg-blue-700' : 'bg-green-700'}`}
+                        >
+                            {connected && Credit.ownerAddress === address ? "Refund" : "Buy"}
+                        </Button>
             </CardFooter>
             </Card>   
           </div>

@@ -27,8 +27,8 @@ export function BuyCredits() {
     txhash: '',
   }
   
-  const {wallet} = useWalletContext();
-  const { marketCredits } = useMarketContext(); 
+  const {wallet, metadata} = useWalletContext();
+  const { marketCredits , setMarketCredits} = useMarketContext(); 
   const [image, setImage] = useState('');
   const [Credit, setCredit] = useState(marketCredit);
   const credit = marketCredits.find((credit: any) => credit.unit+ credit.ownerAddress === id);
@@ -43,17 +43,24 @@ export function BuyCredits() {
   const {contract} = useContractContext();
 
   async function buyCredits() {
-    const utxo = await contract.getUtxoByTxHash(Credit.txhash);   
-    const tx = await contract.purchaseAsset(utxo);
     try{
-      const signedTx = await wallet.signTx(tx);
+      const utxo = await contract.getUtxoByTxHash(Credit.txhash);   
+      const tx = await contract.purchaseAsset(utxo);
+      const signedTx = await wallet.signTx(tx); 
       const txHash = await wallet.submitTx(signedTx);
+      if(txHash){
+        if(metadata.find((credit: any) => credit.unit === id) == undefined){
+          setMarketCredits(marketCredits.filter((credit: any) => credit.unit+ credit.ownerAddress !== id));
+        } 
+      }
     }
     catch(e){
+      console.log("Error1365465: ", e);
       console.log(e);
+      router.push(id);
     }
-
   }
+
 
   return (
     <div className="flex flex-col min-h-screen">

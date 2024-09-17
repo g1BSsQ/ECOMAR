@@ -6,7 +6,11 @@ import React, { useState} from "react";
 import { ForgeScript, Transaction } from "@meshsdk/core";
 import { useWalletContext } from '../../context/WalletContext';
 
+
 export function Mint() {
+
+  const JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJjNTdiMGY1My1mOTU1LTQzYjctYmIyNS02MWMyNDE5Y2Y1MzUiLCJlbWFpbCI6Imh1bmdib3ljbEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiYjk2MzNhMmZkNTA4N2I0NGI5ZGUiLCJzY29wZWRLZXlTZWNyZXQiOiI5ZDU3YTM5YTM3NDYzZmY4NzQ3YjUwNTIxNzE4NWYwMjBlZWQwZWMzMjY1ZDFlZWUxNzdmZmU3YTM2OGQ4YTA2IiwiZXhwIjoxNzU4MDMyMjYwfQ.tsE5inMYRRUmJJAO18dbg89xpq5zaSU3kRlo2YbMLqM";
+
   const [credit, setCredit] = useState<File | null>(null); 
   const onFileUploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
       setCredit(e.target.files?.[0] || null); 
@@ -29,7 +33,7 @@ export function Mint() {
 
     const assetMetadata: AssetMetadata = {
       "name": title, 
-      "image": "ipfs://QmRzicpReutwCkM6aotuKjErFCUD213DpwPq6ByuzMJaua",
+      "image": "",
       "mediaType": "image/jpg",
       "isCredit": "1",
       "description": description, 
@@ -39,7 +43,7 @@ export function Mint() {
       assetName: title, 
       assetQuantity: quantity.toString(), 
       metadata: assetMetadata,
-      label: '20',
+      label: '721',
       recipient: address,
     };
 
@@ -54,6 +58,30 @@ export function Mint() {
     const txHash = await wallet.submitTx(signedTx);
   }
 
+
+
+  async function pinFileToIPFS() {
+    try {
+      const formData = new FormData();
+  
+      const file = credit? new File(["upload-file"], credit.name, { type: "image/jpg" }) : null;
+      formData.append("file", file);
+  
+      const request = await fetch("https://uploads.pinata.cloud/v3/files", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${JWT}`
+        },
+        body: formData,
+      });
+      const response = await request.json();
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  
   return (
     
     <div className="min-h-screen bg-white">
@@ -111,6 +139,7 @@ export function Mint() {
               onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
             />
           </div>
+          
           <Button onClick = {() => mintToken()}className="bg-[#1E834B] text-white w-full">Mint</Button>
         </section>
       </main>

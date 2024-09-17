@@ -24,6 +24,7 @@ export function RefundCredits() {
     policyId: '',
     ownerAddress: '',
     txhash: '',
+    description:'',
   }
   const { marketCredits } = useMarketContext();
   const [image, setImage] = useState('');
@@ -75,18 +76,11 @@ export function RefundCredits() {
                   </Button>
                 </div>
                 <div>
-                  <span className="font-semibold">Issuer:</span>
-                  <div className="flex items-center space-x-2">
-                    <Avatar>
-                      <AvatarImage src="/placeholder-user.jpg" alt="Issuer" />
-                      <AvatarFallback>IS</AvatarFallback>
-                    </Avatar>
-                    <span style={{ fontSize: '10px' }}>addr_test1qzwu6...</span>
-                    <Button variant="ghost" size="icon" className="ml-2">
-                      <CopyIcon className="w-4 h-4" />
-                    </Button>
+                  <span className="font-semibold ">Descriptions:</span>
+                  <div className="flex items-center space-x-2 mb-5 ">
+                    <span></span>
                   </div>
-                </div>
+                </div>{Credit.description}
                 <div>
                   <span className="font-semibold">Owner:</span>
                   <div className="flex items-center space-x-2">
@@ -105,15 +99,9 @@ export function RefundCredits() {
           </Card>
           <Card className="p-4 border-t border-gray-300">
             <div className="flex flex-col space-y-4">
-              <div className="flex items-center ">
-                <Label htmlFor="quantity" className="block mr-4">
+                <Label htmlFor="quantity" className="text-center block mr-4 mb-3 ">
                   {"Quantity:     "  +  Credit.quantity}
                 </Label>
-              <Label htmlFor="price" className="block ml-9 mr-4">
-                  Price:   1000
-                </Label>
-              <h1 style={{fontWeight: 'bold', fontSize: '25px'}}>₳</h1>
-              </div>
               <Button 
               onClick={HandleRefund} 
               className="bg-blue-600 text-white">Refund</Button>

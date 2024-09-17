@@ -50,6 +50,7 @@ export function SellCredits() {
       const credits = metadata.find((credit: any) => credit.unit === id);
       setCredit(credits);
       setImage(extractIpfsHash(credits.image));
+      console.log(credits.isCredit);
     }
   },[connected, metadata]);
 
@@ -66,6 +67,7 @@ export function SellCredits() {
     catch(e)
     {
       console.log(e);
+      router.push(id);
     }
 
   }
@@ -95,18 +97,11 @@ export function SellCredits() {
                   </Button>
                 </div>
                 <div>
-                  <span className="font-semibold">Issuer:</span>
-                  <div className="flex items-center space-x-2">
-                    <Avatar>
-                      <AvatarImage src="/placeholder-user.jpg" alt="Issuer" />
-                      <AvatarFallback>IS</AvatarFallback>
-                    </Avatar>
-                    <span style={{ fontSize: '10px' }}>addr_test1qzwu6...</span>
-                    <Button variant="ghost" size="icon" className="ml-2">
-                      <CopyIcon className="w-4 h-4" />
-                    </Button>
+                  <span className="font-semibold ">Descriptions:</span>
+                  <div className="flex items-center space-x-2 mb-5 ">
+                    <span></span>
                   </div>
-                </div>
+                </div>{Credit.description}
                 <div>
                   <span className="font-semibold">Owner:</span>
                   <div className="flex items-center space-x-2">

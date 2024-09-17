@@ -36,7 +36,7 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
       for(let i =0; i<_assets.length; i++){
         const asset = await blockchainProvider.fetchAssetMetadata(_assets[i].unit);
         const credit = {
-          isCredit: 1,  
+          isCredit: asset.isCredit,  
           title : asset.name,
           description : asset.description,
           quantity : _assets[i].quantity,
@@ -45,7 +45,7 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
           policyId: _assets[i].policyId,
           assetName: _assets[i].assetName, 
         }
-        if(credit.isCredit){
+        if(credit.isCredit == "1"){
           fetchedMetadata.push(credit);
         }
       }

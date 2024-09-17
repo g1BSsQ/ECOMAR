@@ -4,7 +4,7 @@ export function Footer() {
   return (
     <>
       <div className="flex flex-col md:flex-row items-center gap-4 ">
-        <p className="text-sm">© 2024 Carbon Exchange. All rights reserved.</p>
+        <p className="text-sm text-lime-800	text-lg">© 2024 ECOMAR. All rights reserved.</p>
       </div>
       <div className="flex flex-col md:flex-row items-center gap-4 ">
         <div className="flex flex-col"> {/* Thay đổi thành flex-col */ }
