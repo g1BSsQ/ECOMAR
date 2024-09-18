@@ -22,7 +22,7 @@ export const ContractProvider = ({ children }: { children: ReactNode }) => {
         wallet: wallet,
         networkId: 0,
       },
-      'addr_test1qpmj32lx9y66wjrfjrn5hvd48dcn84x86dg78tcnv45rshcu2ny3upp58v74qvkd0ccxs7epfsg0pzt0jk09y2m97vrquqd8vs',
+      'addr_test1qqtw7yae4ppt6fymg3xfwupf2rm8pc288722fm74q3t3l3ykh33g35mz823z82af33xr82r6jxk09vgkccsggg3etnyqrl7t0n',
        200, 
     );
     return (

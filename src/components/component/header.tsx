@@ -2,7 +2,7 @@ import Link from "next/link"
 import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar"
 import { Button } from "~/components/ui/button"
 import { MenuIcon } from "lucide-react"
-import ConnectionHandler from "./ConnectionHandler";
+import ConnectionHandler from "./connectionhandler";
 import Image from 'next/image';
 export function Header() {
     return (

@@ -47,7 +47,7 @@ export const MarketProvider = ({ children }: { children: ReactNode }) => {
         blockfrostApiKey
       );   
   
-      const data = await blockchainProvider.fetchAddressUTxOs("addr_test1wqhh0xnmsjwfsx7jjjqnnkepglvzkq282dagdlggucx07zsl5hzsm");
+      const data = await blockchainProvider.fetchAddressUTxOs("addr_test1wzgzy45su6jzj67zthwrgwddgxem0zyqu9yz4w8kg7du8dc9acfsj");
         console.log(data);
         const size = data.length;
         const credits = [];
