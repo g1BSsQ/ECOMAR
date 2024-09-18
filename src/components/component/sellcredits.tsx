@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Button } from "~/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "~/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar";
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "~/components/ui/table";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "~/components/ui/input";
 import { JSX, SVGProps } from "react";
@@ -13,13 +12,13 @@ import { useContractContext } from '~/context/ContractContext';
 export function SellCredits() {
   const router = useRouter();
   const { id } = router.query;
-
   const extractIpfsHash = (url: string) => {
     if (url.startsWith('ipfs://')) {
       return url.split('ipfs://')[1];
     }
-    return null;
+    return url;
   };
+
   const credit = {
     title: '',
     description: '',
@@ -145,67 +144,10 @@ export function SellCredits() {
                 />
               <h1 style={{fontWeight: 'bold', fontSize: '25px'}}>₳</h1>
               </div>
-              <Button className="bg-green-600 text-white" onClick = {() => sellCredits()}>Sell Credits</Button>
+              <Button className="bg-[#facc15] text-white" onClick = {() => sellCredits()}>Sell Credits</Button>
             </div>
           </Card>
-          <Card className="mt-4">
-            <CardHeader>
-              <CardTitle>Transaction History</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Total Bill</TableHead>
-                    <TableHead>Credit Quantity</TableHead>
-                    <TableHead>Transaction Hash</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>2023-04-15</TableCell>
-                    <TableCell>$50</TableCell>
-                    <TableCell>50</TableCell>
-                    <TableCell>
-                      <div className="flex items-center">
-                        <span>0x123456789abcdef0123456789abcdef</span>
-                        <Button variant="ghost" size="icon" className="ml-2">
-                          <CopyIcon className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>2023-03-20</TableCell>
-                    <TableCell>$25</TableCell>
-                    <TableCell>25</TableCell>
-                    <TableCell>
-                      <div className="flex items-center">
-                        <span>0x987654321fedcba0987654321fedcba</span>
-                        <Button variant="ghost" size="icon" className="ml-2">
-                          <CopyIcon className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>2023-02-10</TableCell>
-                    <TableCell>$75</TableCell>
-                    <TableCell>75</TableCell>
-                    <TableCell>
-                      <div className="flex items-center">
-                        <span>0xabcdef0123456789abcdef0123456789</span>
-                        <Button variant="ghost" size="icon" className="ml-2">
-                          <CopyIcon className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+          
         </div>
       </main>
     </div>

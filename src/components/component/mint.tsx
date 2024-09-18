@@ -6,6 +6,8 @@ import React, { useState} from "react";
 import { ForgeScript, Transaction } from "@meshsdk/core";
 import { useWalletContext } from '../../context/WalletContext';
 import {PinataSDK} from 'pinata-web3';
+import { Upload } from "lucide-react";
+import { connected } from "process";
 
 export function Mint() {
 
@@ -35,6 +37,7 @@ export function Mint() {
     const usedAddress = await wallet.getUsedAddresses(); 
     const address = usedAddress[0]; 
     const forgingScript = ForgeScript.withOneSignature(address);
+
     const upload = await pinata.upload.file(credit);
     const assetMetadata: AssetMetadata = {
       "name": title, 
@@ -48,7 +51,7 @@ export function Mint() {
       assetName: title, 
       assetQuantity: quantity.toString(), 
       metadata: assetMetadata,
-      label: '721',
+      label: '20',
       recipient: address,
     };
 
@@ -128,8 +131,11 @@ export function Mint() {
               onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
             />
           </div>
-          
-          <Button onClick = {() => mintToken()}className="bg-[#1E834B] text-white w-full">Mint</Button>
+          {credit && connected ? 
+          (<Button onClick = {() =>  mintToken()  }className="bg-[#1E834B] text-white w-full">Mint</Button>)
+          : 
+            <Button className="bg-[#1E834B] text-white w-full">Mint</Button>
+          }
         </section>
       </main>
     </div>

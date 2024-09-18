@@ -37,8 +37,8 @@ export function Marketplace() {
               <CardDescription>{Credit.description}</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-xl font-bold">{"$"+Credit.price}</div>
-              <div className="text-sm text-muted-foreground">{Credit.quantity+ "available"}</div>
+              <div className="text-xl font-bold">{Credit.price/1000000 + " ₳"}</div>
+              <div className="text-sm text-muted-foreground">{Credit.quantity+ " available"}</div>
             </CardContent>
             <CardFooter className="flex justify-center">
             <Button

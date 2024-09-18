@@ -1,7 +1,6 @@
 import { Button } from "~/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent } from "~/components/ui/card"
 import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar"
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "~/components/ui/table"
 import { Label } from "../ui/label"
 import { JSX, SVGProps, useEffect, useState } from "react"
 import { useMarketContext } from "~/context/MarketContext"
@@ -15,7 +14,7 @@ export function RefundCredits() {
     if (url.startsWith('ipfs://')) {
       return url.split('ipfs://')[1];
     }
-    return null;
+    return url;
   };
   const marketCredit = {
     title: '',
@@ -76,11 +75,13 @@ export function RefundCredits() {
                   </Button>
                 </div>
                 <div>
-                  <span className="font-semibold ">Descriptions:</span>
-                  <div className="flex items-center space-x-2 mb-5 ">
-                    <span></span>
+                  <span className="font-semibold">Descriptions:</span>
+                  <div className="flex items-center space-x-2">
+                    <span>  {Credit.description} </span>
+                    <Button variant="ghost" size="icon" className="ml-2">
+                    </Button>
                   </div>
-                </div>{Credit.description}
+                </div>
                 <div>
                   <span className="font-semibold">Owner:</span>
                   <div className="flex items-center space-x-2">
@@ -107,64 +108,7 @@ export function RefundCredits() {
               className="bg-blue-600 text-white">Refund</Button>
             </div>
           </Card>
-          <Card className="mt-4">
-            <CardHeader>
-              <CardTitle>Transaction History</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Total Bill</TableHead>
-                    <TableHead>Credit Quantity</TableHead>
-                    <TableHead>Transaction Hash</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>2023-04-15</TableCell>
-                    <TableCell>$50</TableCell>
-                    <TableCell>50</TableCell>
-                    <TableCell>
-                      <div className="flex items-center">
-                        <span>0x123456789abcdef0123456789abcdef</span>
-                        <Button variant="ghost" size="icon" className="ml-2">
-                          <CopyIcon className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>2023-03-20</TableCell>
-                    <TableCell>$25</TableCell>
-                    <TableCell>25</TableCell>
-                    <TableCell>
-                      <div className="flex items-center">
-                        <span>0x987654321fedcba0987654321fedcba</span>
-                        <Button variant="ghost" size="icon" className="ml-2">
-                          <CopyIcon className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>2023-02-10</TableCell>
-                    <TableCell>$75</TableCell>
-                    <TableCell>75</TableCell>
-                    <TableCell>
-                      <div className="flex items-center">
-                        <span>0xabcdef0123456789abcdef0123456789</span>
-                        <Button variant="ghost" size="icon" className="ml-2">
-                          <CopyIcon className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+        
         </div>
       </main>
     </div>

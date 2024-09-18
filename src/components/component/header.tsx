@@ -19,7 +19,7 @@ export function Header() {
                 </Link>
                 <AvatarFallback>JD</AvatarFallback>
             </Avatar><nav className="hidden md:flex items-center gap-4">
-                <Link href="/about" className="hover:underline" prefetch={false}>
+                <Link href="" className="hover:underline" prefetch={false}>
                     About
                 </Link>
                 <Link href="/marketplace" className="hover:underline" prefetch={false}>

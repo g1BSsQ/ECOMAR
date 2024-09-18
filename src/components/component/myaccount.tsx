@@ -37,7 +37,7 @@ export function Myaccount() {
                 <CardFooter className="flex justify-center">
                   <Link href={`/sell/detail/${credit.unit}`} className="hover:underline" prefetch={false}>
                     <Button
-                      className="w-full bg-green-700 text-white"
+                      className="w-full bg-[#facc15] text-white"
                     >
                       SELL
                     </Button>

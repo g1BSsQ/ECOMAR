@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { BlockfrostProvider} from '@meshsdk/core';
-
+import axios from 'axios';
 interface MarketContextType {
     marketCredits: any[]; 
     setMarketCredits: (marketCredits: any[]) => void;
@@ -17,11 +17,35 @@ export const MarketProvider = ({ children }: { children: ReactNode }) => {
         return s;
     }
     
+    
+    interface DatumResponse {
+      hash: string;
+      datum: string;
+    }
+    
+  
+  const blockfrostApiKey = 'previewGIAPfLo3R0N2P9ooq4FMsravbuLiSUGF'; // Thay thế bằng API key của bạn
+  const baseUrl = 'https://cardano-preview.blockfrost.io/api/v0';
+  
+  async function getDatumByHash(datumHash: string): Promise<DatumResponse> {
+    try {
+      const response = await axios.get(`${baseUrl}/scripts/datum/${datumHash}`, {
+        headers: {
+          project_id: blockfrostApiKey,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Lỗi khi lấy datum:', error);
+      throw error; 
+    }
+  }
+  
+
     async function getCarbonCredits() {
       const blockchainProvider = new BlockfrostProvider(
-        'previewGIAPfLo3R0N2P9ooq4FMsravbuLiSUGF'
-      );
-  
+        blockfrostApiKey
+      );   
   
       const data = await blockchainProvider.fetchAddressUTxOs("addr_test1wqhh0xnmsjwfsx7jjjqnnkepglvzkq282dagdlggucx07zsl5hzsm");
         console.log(data);
@@ -29,7 +53,11 @@ export const MarketProvider = ({ children }: { children: ReactNode }) => {
         const credits = [];
         for(let i=0; i<size; i++){
             const txhash = data[i].input.txHash;
+            console.log(getDatumByHash(data[i].output.dataHash as string));
+            const jsonObj = await getDatumByHash(data[i].output.dataHash as string);
+            console.log(jsonObj.json_value.fields[1].int);
             const response = await blockchainProvider.fetchUTxOs(txhash);
+
             console.log(22222);
             console.log(response);
             const asset = await blockchainProvider.fetchAssetMetadata(response[0].output.amount[1].unit);
@@ -46,6 +74,7 @@ export const MarketProvider = ({ children }: { children: ReactNode }) => {
                 image: asset.image,
                 txhash: txhash,
                 description: asset.description,
+                price: jsonObj.json_value.fields[1].int,
             }
             credits.push(credit);
         }
