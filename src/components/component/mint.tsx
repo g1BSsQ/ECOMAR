@@ -5,11 +5,9 @@ import { Textarea } from "~/components/ui/textarea"
 import React, { useState} from "react";
 import { ForgeScript, Transaction } from "@meshsdk/core";
 import { useWalletContext } from '../../context/WalletContext';
-
+import {PinataSDK} from 'pinata-web3';
 
 export function Mint() {
-
-  const JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJjNTdiMGY1My1mOTU1LTQzYjctYmIyNS02MWMyNDE5Y2Y1MzUiLCJlbWFpbCI6Imh1bmdib3ljbEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiYjk2MzNhMmZkNTA4N2I0NGI5ZGUiLCJzY29wZWRLZXlTZWNyZXQiOiI5ZDU3YTM5YTM3NDYzZmY4NzQ3YjUwNTIxNzE4NWYwMjBlZWQwZWMzMjY1ZDFlZWUxNzdmZmU3YTM2OGQ4YTA2IiwiZXhwIjoxNzU4MDMyMjYwfQ.tsE5inMYRRUmJJAO18dbg89xpq5zaSU3kRlo2YbMLqM";
 
   const [credit, setCredit] = useState<File | null>(null); 
   const onFileUploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,14 +24,21 @@ export function Mint() {
   const [description, setDescription] = useState('');
   const [quantity, setQuantity] = useState(1);
 
+  const JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJjNTdiMGY1My1mOTU1LTQzYjctYmIyNS02MWMyNDE5Y2Y1MzUiLCJlbWFpbCI6Imh1bmdib3ljbEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiMGRkYzQyNTM4YWVhODg3YzI3MDUiLCJzY29wZWRLZXlTZWNyZXQiOiIwZTdmMTkwZjZhOTY1ODgzNTQ1MjJkMjkwYmJiMjRiOGJiYjJmYTJiYmM1MjU0Y2NhN2UzYTA2ZWNhM2NkM2I0IiwiZXhwIjoxNzU4MTY1Nzc3fQ.1HzbMH6GAchvgjAlT7BNSO_A9_hzp2qjatsNax4kFGk";
+  const pinata = new PinataSDK({
+    pinataJwt: JWT,
+    pinataGateway: "peach-implicit-capybara-652.mypinata.cloud",
+  });
+  
+
   async function mintToken() {
     const usedAddress = await wallet.getUsedAddresses(); 
     const address = usedAddress[0]; 
     const forgingScript = ForgeScript.withOneSignature(address);
-
+    const upload = await pinata.upload.file(credit);
     const assetMetadata: AssetMetadata = {
       "name": title, 
-      "image": "",
+      "image": upload.IpfsHash,
       "mediaType": "image/jpg",
       "isCredit": "1",
       "description": description, 
@@ -52,36 +57,20 @@ export function Mint() {
       forgingScript,
       asset,
     );
-
-    const unsignedTx = await tx.build();
-    const signedTx = await wallet.signTx(unsignedTx);
-    const txHash = await wallet.submitTx(signedTx);
-  }
-
-
-
-  async function pinFileToIPFS() {
-    try {
-      const formData = new FormData();
-  
-      const file = credit? new File(["upload-file"], credit.name, { type: "image/jpg" }) : null;
-      formData.append("file", file);
-  
-      const request = await fetch("https://uploads.pinata.cloud/v3/files", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${JWT}`
-        },
-        body: formData,
-      });
-      const response = await request.json();
-      console.log(response);
-    } catch (error) {
-      console.log(error);
+    try{
+      
+      const unsignedTx = await tx.build();
+      const signedTx = await wallet.signTx(unsignedTx);
+      const txHash = await wallet.submitTx(signedTx);
+    }
+    catch(e){
+      console.log(e);
     }
   }
 
+
   
+
   return (
     
     <div className="min-h-screen bg-white">

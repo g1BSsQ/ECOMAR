@@ -24,7 +24,7 @@ export function Footer() {
         <div className="flex items-center gap-2 mb-5">
           <PhoneIcon className="w-5 h-5" />
           <a href="#" className="hover:underline">
-            091 267 5677
+            +8491 267 5677
           </a>
         </div>
         <div className="flex items-center gap-2 mb-5">
