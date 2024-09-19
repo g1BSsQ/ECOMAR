@@ -56,7 +56,6 @@ export function BuyCredits() {
       }
     }
     catch(e){
-      console.log("Error1365465: ", e);
       console.log(e);
       router.push(id);
     }

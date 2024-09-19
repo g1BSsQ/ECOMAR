@@ -31,7 +31,6 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
       const fetchedMetadata = [];
       const _assets = await wallet.getAssets();
       const data = await wallet.getChangeAddress();
-      console.log(data);
       setAddress(data);
       for(let i =0; i<_assets.length; i++){
         const asset = await blockchainProvider.fetchAssetMetadata(_assets[i].unit);
@@ -55,8 +54,9 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
   useEffect(()=>{
     getMetadata();
   },[wallet]);
+  
   return (
-    <WalletContext.Provider value={{ name, connecting, connected, wallet, connect, disconnect, error, metadata, getMetadata, blockchainProvider,address }}>
+    <WalletContext.Provider value={{ name, connecting, connected, wallet, connect, disconnect, error, metadata, getMetadata,address }}>
       {children}
     </WalletContext.Provider>
   );

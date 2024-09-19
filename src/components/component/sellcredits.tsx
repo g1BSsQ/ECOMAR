@@ -49,7 +49,6 @@ export function SellCredits() {
       const credits = metadata.find((credit: any) => credit.unit === id);
       setCredit(credits);
       setImage(extractIpfsHash(credits.image));
-      console.log(credits.isCredit);
     }
   },[connected, metadata]);
 

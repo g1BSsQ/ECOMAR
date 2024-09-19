@@ -32,7 +32,6 @@ export function Mint() {
     pinataGateway: "peach-implicit-capybara-652.mypinata.cloud",
   });
   
-
   async function mintToken() {
     const usedAddress = await wallet.getUsedAddresses(); 
     const address = usedAddress[0]; 
@@ -70,10 +69,6 @@ export function Mint() {
       console.log(e);
     }
   }
-
-
-  
-
   return (
     
     <div className="min-h-screen bg-white">

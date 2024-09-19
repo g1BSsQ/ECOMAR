@@ -8,7 +8,7 @@ import { useWalletContext } from '../../context/WalletContext';
 export function Myaccount() {
 
   const [Credits, setCredits] = useState<any[]>([]);
-  const {connected, metadata} = useWalletContext();
+  const {connected, metadata, getMetadata} = useWalletContext();
   useEffect(() => {
     if (metadata) {
       setCredits(metadata);
@@ -19,6 +19,9 @@ export function Myaccount() {
       setCredits([]);
     }
   },[connected]);
+  useEffect(() => {
+    getMetadata();
+  }, []);
   return (
     <div className="min-h-screen bg-gray-100">
       <main className="container mx-auto p-4">

@@ -48,18 +48,12 @@ export const MarketProvider = ({ children }: { children: ReactNode }) => {
       );   
   
       const data = await blockchainProvider.fetchAddressUTxOs("addr_test1wzgzy45su6jzj67zthwrgwddgxem0zyqu9yz4w8kg7du8dc9acfsj");
-        console.log(data);
         const size = data.length;
         const credits = [];
         for(let i=0; i<size; i++){
             const txhash = data[i].input.txHash;
-            console.log(getDatumByHash(data[i].output.dataHash as string));
             const jsonObj = await getDatumByHash(data[i].output.dataHash as string);
-            console.log(jsonObj.json_value.fields[1].int);
             const response = await blockchainProvider.fetchUTxOs(txhash);
-
-            console.log(22222);
-            console.log(response);
             const asset = await blockchainProvider.fetchAssetMetadata(response[0].output.amount[1].unit);
             const utf8Buffer = Buffer.from(asset.name, 'utf8');
             const hexString = utf8Buffer.toString('hex');
@@ -80,11 +74,9 @@ export const MarketProvider = ({ children }: { children: ReactNode }) => {
         }
         setMarketCredits(credits); 
     }
-    useEffect(()=>{
-        getCarbonCredits();
-    },[]);
+
   return (
-    <MarketContext.Provider value={{marketCredits, setMarketCredits}}> 
+    <MarketContext.Provider value={{marketCredits, getCarbonCredits}}> 
       {children}
     </MarketContext.Provider>
   );

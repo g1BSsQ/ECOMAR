@@ -7,7 +7,7 @@ export function Footer() {
         <p className="text-sm text-lime-800	text-lg">© 2024 ECOMAR. All rights reserved.</p>
       </div>
       <div className="flex flex-col md:flex-row items-center gap-4 ">
-        <div className="flex flex-col"> {/* Thay đổi thành flex-col */ }
+        <div className="flex flex-col"> 
           <div className="flex items-center gap-4 mb-5">
             <Link href="#" className="hover:underline" prefetch={false}>
               Privacy Policy
@@ -24,7 +24,7 @@ export function Footer() {
         <div className="flex items-center gap-2 mb-5">
           <PhoneIcon className="w-5 h-5" />
           <a href="#" className="hover:underline">
-            +8491 267 5677
+            +84 912 675 677
           </a>
         </div>
         <div className="flex items-center gap-2 mb-5">
