@@ -6,8 +6,6 @@ import React, { useState} from "react";
 import { ForgeScript, Transaction } from "@meshsdk/core";
 import { useWalletContext } from '../../context/WalletContext';
 import {PinataSDK} from 'pinata-web3';
-import { Upload } from "lucide-react";
-import { connected } from "process";
 
 export function Mint() {
 
@@ -20,7 +18,7 @@ export function Mint() {
     document.getElementById('upload-file')?.click();
   }
 
-  const {wallet} = useWalletContext();
+  const {wallet, connected} = useWalletContext();
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -127,7 +125,7 @@ export function Mint() {
             />
           </div>
           {credit && connected ? 
-          (<Button onClick = {() =>  mintToken()  }className="bg-[#1E834B] text-white w-full">Mint</Button>)
+          (<Button onClick = {() =>  mintToken()}className="bg-[#1E834B] text-white w-full">Mint</Button>)
           : 
             <Button className="bg-[#1E834B] text-white w-full">Mint</Button>
           }
